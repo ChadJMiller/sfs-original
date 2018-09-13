@@ -12,6 +12,8 @@ test-output/
 dist/
 =======
 
+.gradle/
+
 # Compiled source #
 ###################
 *.com
