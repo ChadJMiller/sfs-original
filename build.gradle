@@ -1,17 +1,60 @@
-
-apply plugin: 'java'
-
-
-allprojects  {
-    apply plugin: 'maven'
-
-    group = 'com.noofinc.dsm-webapi-client'
-    version = '0.0.1'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
 }
-sourceCompatibility = 1.8
+plugins {
+    id "com.jfrog.bintray" version "1.8.4"
+    id "maven-publish"
+    id "java"
+}
+
+
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    jcenter()
+}
+
+//ext {
+//    version = '0.0.2'
+//}
+version = '0.0.2'
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['mavenPublication']
+    dryRun = false
+    publish = true
+    override = true
+    pkg {
+        repo = 'maven'
+        name = 'sfs'
+        userOrg = 'chadjmiller'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'git@github.com:ChadJMiller/sfs.git'
+        version {
+            name = version
+            desc = version
+            released  = new Date()
+        }
+    }
+
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            groupId 'com.noofinc.dsm-webapi-client'
+            artifactId 'sfs'
+            version version
+        }
+    }
 }
 
 dependencies {
