@@ -5,9 +5,9 @@
         </encoder>
     </appender>
 
-    <logger name="net.jacqg.dsm.webapi.client" level="DEBUG"/>
+    <logger name="com.noofinc.dsm" level="DEBUG" />
 
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>
 

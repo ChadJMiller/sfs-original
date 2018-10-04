@@ -1,7 +1,6 @@
 package com.noofinc.dsm.webapi.client;
 
 import com.noofinc.dsm.webapi.client.core.DsmUrlProvider;
-import com.noofinc.dsm.webapi.client.core.DsmWebapiClientConfig;
 import com.noofinc.dsm.webapi.client.core.PropertiesDsmUrlProvider;
 import com.noofinc.dsm.webapi.client.core.authentication.AuthenticationProvider;
 import com.noofinc.dsm.webapi.client.core.authentication.PropertiesAuthenticationProvider;

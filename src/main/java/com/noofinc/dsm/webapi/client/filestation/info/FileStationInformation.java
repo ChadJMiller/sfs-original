@@ -12,19 +12,23 @@ import java.util.List;
 public class FileStationInformation {
 
     private boolean manager;
-    private List<String> supportedVirtualFileSystems = new ArrayList<>();
+    private List<String> supportedVirtualProtocols = new ArrayList<>();
     private boolean supportSharing;
     private String hostname;
+
+
+
+
 
     @JsonCreator
     public FileStationInformation(
             @JsonProperty("is_manager") boolean manager,
-            @JsonProperty("support_virtual") String supportedVirtualFileSystems,
+            @JsonProperty("support_virtual_protocol") String supportedVirtualProtocols,
             @JsonProperty("support_sharing") boolean supportSharing,
             @JsonProperty("hostname") String hostname) {
         this.manager = manager;
-        if(!Strings.isNullOrEmpty(supportedVirtualFileSystems)) {
-            this.supportedVirtualFileSystems.addAll(Splitter.on(',').splitToList(supportedVirtualFileSystems));
+        if(!Strings.isNullOrEmpty(supportedVirtualProtocols)) {
+            this.supportedVirtualProtocols.addAll(Splitter.on(',').splitToList(supportedVirtualProtocols));
         }
         this.supportSharing = supportSharing;
         this.hostname = hostname;
@@ -34,8 +38,8 @@ public class FileStationInformation {
         return manager;
     }
 
-    public List<String> getSupportedVirtualFileSystems() {
-        return Collections.unmodifiableList(supportedVirtualFileSystems);
+    public List<String> getSupportedVirtualProtocols() {
+        return Collections.unmodifiableList(supportedVirtualProtocols);
     }
 
     public boolean isSupportSharing() {
@@ -45,4 +49,5 @@ public class FileStationInformation {
     public String getHostname() {
         return hostname;
     }
+
 }

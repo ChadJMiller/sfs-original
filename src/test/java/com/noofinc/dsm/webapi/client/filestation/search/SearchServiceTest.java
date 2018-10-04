@@ -19,7 +19,7 @@ public class SearchServiceTest extends AbstractTest {
                 .create()
                 .pattern("test")
                 .build();
-        List<File> files = searchService.synchronousSearch("/dsm-webapi-it", true, build);
+        List<File> files = searchService.synchronousSearch("/noofinc-ws-it", true, build);
         Assert.assertTrue(files.size() > 0);
         // TODO need more assertions
     }

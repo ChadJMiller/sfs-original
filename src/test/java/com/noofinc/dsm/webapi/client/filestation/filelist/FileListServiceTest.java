@@ -17,24 +17,24 @@ public class FileListServiceTest extends AbstractTest {
 
     @Test
     public void testList() throws Exception {
-        List<File> list = fileListService.list("/dsm-webapi-it");
+        List<File> list = fileListService.list("/noofinc-ws-it");
         Assert.assertEquals(3, list.size());
     }
 
     @Test
     public void testGetFiles() {
-        List<File> files = fileListService.getFiles(Arrays.asList("/dsm-webapi-it/test-1", "/dsm-webapi-it/test-text-file.txt"));
+        List<File> files = fileListService.getFiles(Arrays.asList("/noofinc-ws-it/test-1", "/noofinc-ws-it/test-text-file.txt"));
         Assert.assertEquals(2, files.size());
     }
 
     @Test(expected = FileNotFoundException.class)
     public void testListWrongName() throws Exception {
-        List<File> list = fileListService.list("/dsm-webapi-it/brol");
+        List<File> list = fileListService.list("/noofinc-ws-it/brol");
     }
 
     @Test
     public void testGetFilesWrongName() {
-        List<File> files = fileListService.getFiles(Arrays.asList("/dsm-webapi-it/test-1", "/dsm-webapi-it/brol"));
+        List<File> files = fileListService.getFiles(Arrays.asList("/noofinc-ws-it/test-1", "/noofinc-ws-it/brol"));
         Assert.assertEquals(1, files.size());
     }
 }

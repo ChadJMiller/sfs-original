@@ -13,16 +13,16 @@ public class DirSizeServiceImplTest extends AbstractTest {
 
     @Test
     public void testSynchronousDirSize() throws Exception {
-        DirSizeResult dirSizeResult = dirSizeService.synchronousDirSize("/dsm-webapi-it/");
+        DirSizeResult dirSizeResult = dirSizeService.synchronousDirSize("/noofinc-ws-it/");
         Assert.assertEquals(true, dirSizeResult.isFinished());
         Assert.assertEquals(3, dirSizeResult.getNumberOfDirectories());
         Assert.assertEquals(5, dirSizeResult.getNumberOfFiles());
-        Assert.assertEquals(202905L, dirSizeResult.getTotalByteSize());
+        Assert.assertEquals(147743L, dirSizeResult.getTotalByteSize());
     }
 
     @Test
     public void testNotExistingDir() throws Exception {
-        DirSizeResult dirSizeResult = dirSizeService.synchronousDirSize("/dsm-webapi-it/not-existing");
+        DirSizeResult dirSizeResult = dirSizeService.synchronousDirSize("/noofinc-ws-it/not-existing");
         Assert.assertEquals(true, dirSizeResult.isFinished());
         Assert.assertEquals(0, dirSizeResult.getNumberOfDirectories());
         Assert.assertEquals(0, dirSizeResult.getNumberOfFiles());

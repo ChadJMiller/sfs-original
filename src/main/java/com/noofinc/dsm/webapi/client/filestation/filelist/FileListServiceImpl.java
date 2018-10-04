@@ -69,7 +69,14 @@ public class FileListServiceImpl extends AbstractDsmServiceImpl implements FileL
 
     @Override
     public List<File> list(String folderPath, Optional<List<String>> patterns, Optional<FileType> fileType, Optional<String> gotoPath) {
-        return list(PaginationAndSorting.DEFAULT_PAGINATION_AND_SORTING, folderPath, patterns, fileType, gotoPath).getElements();
+        //default limit to zero (all)
+        return list(
+                new PaginationAndSorting(0, 0 /* zero == no limit (all) */, PaginationAndSorting.Sort.NAME, PaginationAndSorting.SortDirection.ASC)
+                , folderPath
+                , patterns
+                , fileType
+                , gotoPath
+        ).getElements();
     }
 
     @Override

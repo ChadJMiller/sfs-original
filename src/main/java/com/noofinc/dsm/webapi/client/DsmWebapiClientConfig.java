@@ -1,6 +1,10 @@
-package com.noofinc.dsm.webapi.client.core;
+package com.noofinc.dsm.webapi.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.noofinc.dsm.webapi.client.core.AuthenticatedDsmWebapiClient;
+import com.noofinc.dsm.webapi.client.core.DsmWebapiClient;
+import com.noofinc.dsm.webapi.client.core.DsmWebapiClientImpl;
+import com.noofinc.dsm.webapi.client.core.LoggingInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +37,7 @@ public class DsmWebapiClientConfig {
     public RestTemplate dsmWebapiClientRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         MappingJackson2HttpMessageConverter jsonMessageConverter = new MappingJackson2HttpMessageConverter();
-        jsonMessageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_PLAIN));
+        jsonMessageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
         restTemplate.setMessageConverters(Collections.singletonList(jsonMessageConverter));
         restTemplate.setInterceptors(Collections.singletonList(new LoggingInterceptor()));
         restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));

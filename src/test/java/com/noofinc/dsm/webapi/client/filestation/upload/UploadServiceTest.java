@@ -13,7 +13,7 @@ public class UploadServiceTest extends AbstractTest {
 
     @Test
     public void testUpload() throws Exception {
-        UploadRequest uploadRequest = UploadRequest.createBuilder("/dsm-webapi-it/createFiles" + System.currentTimeMillis(), "test-file.txt", "this is a test file with strsing content\nHelloWorld!\n".getBytes("UTF-8"))
+        UploadRequest uploadRequest = UploadRequest.createBuilder("/noofinc-ws-it/createFiles" + System.currentTimeMillis(), "test-file.txt", "this is a test file with strsing content\nHelloWorld!\n".getBytes("UTF-8"))
                 .createParents(true)
                 .creationTime(LocalDateTime.of(1984, 3, 9, 10, 0))
                 .lastAccessTime(LocalDateTime.of(1984, 3, 9, 10, 0))

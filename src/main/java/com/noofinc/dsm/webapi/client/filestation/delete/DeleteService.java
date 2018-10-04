@@ -10,5 +10,5 @@ public interface DeleteService {
 
     void stop(String taskId);
 
-    boolean synchronousDelete(String path, boolean recursive, Optional<String> searchTaskId);
+    void synchronousDelete(String path, boolean recursive, Optional<String> searchTaskId);
 }

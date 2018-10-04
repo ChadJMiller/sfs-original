@@ -18,22 +18,22 @@ public class RenameServiceTest extends AbstractTest {
 
     @Test
     public void testRenameFile() {
-        File renamedFile = renameService.rename("/dsm-webapi-it/test-1/test-text-file2.txt", "new-text-file.txt");
+        File renamedFile = renameService.rename("/noofinc-ws-it/test-1/test-text-file2.txt", "new-text-file.txt");
         Assert.assertEquals("new-text-file.txt", renamedFile.getName());
-        Assert.assertNull(fileListService.getFile("/dsm-webapi-it/test-1/test-text-file2.txt"));
-        Assert.assertNotNull(fileListService.getFile("/dsm-webapi-it/test-1/new-text-file.txt"));
+        Assert.assertNull(fileListService.getFile("/noofinc-ws-it/test-1/test-text-file2.txt"));
+        Assert.assertNotNull(fileListService.getFile("/noofinc-ws-it/test-1/new-text-file.txt"));
     }
 
     @Test
     public void testRenameFolder() {
-        File renamedFile = renameService.rename("/dsm-webapi-it/test-2", "new-folder");
+        File renamedFile = renameService.rename("/noofinc-ws-it/test-2", "new-folder");
         Assert.assertEquals("new-folder", renamedFile.getName());
-        Assert.assertNull(fileListService.getFile("/dsm-webapi-it/test-2"));
-        Assert.assertNotNull(fileListService.getFile("/dsm-webapi-it/new-folder"));
+        Assert.assertNull(fileListService.getFile("/noofinc-ws-it/test-2"));
+        Assert.assertNotNull(fileListService.getFile("/noofinc-ws-it/new-folder"));
     }
 
     @Test(expected = CouldNotRenameException.class)
     public void testRenameNotExisting() {
-        File renamedFile = renameService.rename("/dsm-webapi-it/test-1/not-existing.txt", "new-text-file.txt");
+        File renamedFile = renameService.rename("/noofinc-ws-it/test-1/not-existing.txt", "new-text-file.txt");
     }
 }

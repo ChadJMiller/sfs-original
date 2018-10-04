@@ -18,7 +18,7 @@ import java.util.Optional;
 public class DeleteServiceImpl extends AbstractDsmServiceImpl implements DeleteService {
 
     public static final String API_ID = "SYNO.FileStation.Delete";
-    public static final String API_VERSION = "1";
+    public static final String API_VERSION = "2";
     public static final String PARAMETER_PATH = "path";
 
     @Value("${dsm.webapi.synchronousDelete.timeout:30}")
@@ -53,10 +53,12 @@ public class DeleteServiceImpl extends AbstractDsmServiceImpl implements DeleteS
     }
 
     @Override
-    public boolean synchronousDelete(String path, boolean recursive, Optional<String> searchTaskId) {
-        String taskId = start(path, recursive, false, searchTaskId);
-        DeleteStatus deleteStatus = waitForCompletion(taskId);
-        return deleteStatus.getProcessedFiles() > 0;
+    public void synchronousDelete(String path, boolean recursive, Optional<String> searchTaskId) {
+        DsmWebapiRequest request = new DsmWebapiRequest(getApiId(), API_VERSION, getApiInfo().getPath(), "start")
+                .parameter(PARAMETER_PATH, path)
+                .parameter("recursive", recursive)
+                .optionalParameter("search_taskid", searchTaskId);
+        getDsmWebapiClient().call(request, StartDeleteResponse.class, new DeleteErrorHandler()).getData().getTaskId();
     }
 
     private DeleteStatus waitForCompletion(String taskId) {
@@ -71,9 +73,11 @@ public class DeleteServiceImpl extends AbstractDsmServiceImpl implements DeleteS
             }
         } catch (InterruptedException e) {
             throw new IllegalStateException("Thread interrupted", e);
-        } finally {
-            stop(taskId);
         }
+
+        //Attempt to stop the delete mid-flight if we time out
+        try{ stop(taskId); } catch (Exception e){ /*eat it*/ }
+
         throw new TaskTimeOutException();
     }
 

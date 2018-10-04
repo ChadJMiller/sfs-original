@@ -1,0 +1,12 @@
+Mount directory for testing:
+
+e.g. mount 192.168.2.3:/volume1/noofinc-ws-it ~/dev/noofinc-ws-it
+
+Ensure that mounted dir is owned by computer user with RW
+
+disable recycle bin
+
+
+
+
+*For testing a precondition that two shares be created:  noofinc-test-share, noofinc-ws-it

@@ -16,7 +16,7 @@ public class FileStationInformationServiceImpl extends AbstractDsmServiceImpl im
     private static final String API_VERSION = "1";
 
     // API Methods
-    private static final String METHOD_GET_INFO = "getinfo";
+    private static final String METHOD_GET_INFO = "get";
 
     public FileStationInformationServiceImpl() {
         super(API_ID);

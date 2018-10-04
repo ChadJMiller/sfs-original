@@ -20,14 +20,14 @@ public class DeleteServiceTest extends AbstractTest {
 
     @Test
     public void testSynchronousDelete() {
-        assertTrue(deleteService.synchronousDelete("/dsm-webapi-it/test-1", true, Optional.empty()));
-        assertNull(fileListService.getFile("/dsm-webapi-it/test-1"));
+        deleteService.synchronousDelete("/noofinc-ws-it/test-1", true, Optional.empty());
+        assertNull(fileListService.getFile("/noofinc-ws-it/test-1"));
     }
 
     @Test
     public void testDeleteNonRecursive() {
-        assertFalse(deleteService.synchronousDelete("/dsm-webapi-it/test-1", false, Optional.empty()));
-        assertNotNull(fileListService.getFile("/dsm-webapi-it/test-1"));
+        deleteService.synchronousDelete("/noofinc-ws-it/test-1", false, Optional.empty());
+        assertNotNull(fileListService.getFile("/noofinc-ws-it/test-1"));
     }
 
     @Test(expected = FileNotFoundException.class)
@@ -37,6 +37,6 @@ public class DeleteServiceTest extends AbstractTest {
 
     @Test
     public void testNotExistingFile() {
-        assertFalse(deleteService.synchronousDelete("/dsm-webapi-it/test-brol", false, Optional.empty()));
+        deleteService.synchronousDelete("/noofinc-ws-it/test-brol", false, Optional.empty());
     }
 }

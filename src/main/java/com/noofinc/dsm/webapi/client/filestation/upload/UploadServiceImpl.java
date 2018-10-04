@@ -9,8 +9,10 @@ import com.noofinc.dsm.webapi.client.core.DsmUrlProvider;
 import com.noofinc.dsm.webapi.client.core.exception.DsmWebApiClientException;
 import com.noofinc.dsm.webapi.client.filestation.common.OverwriteBehavior;
 import com.noofinc.dsm.webapi.client.core.timezone.TimeZoneUtil;
+//import com.sun.deploy.net.HttpResponse;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.client.fluent.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +76,14 @@ public class UploadServiceImpl extends AbstractDsmServiceImpl implements UploadS
         try {
             String request = createRequest(uploadRequest);
             LOGGER.debug("Upload Request Body: \n{}", request);
-            Content content = Request.Post(createUrl())
+
+            Response response = Request.Post(createUrl())
                     .addHeader("Content-type", String.format("multipart/form-data, boundary=%s", DELIMITER.substring(2)))
                     .bodyByteArray(request.getBytes())
-                    .execute().returnContent();
-            LOGGER.debug("Response body: {}", content.asString());
-            return objectMapper.readValue(content.asBytes(), DsmWebapiResponse.class);
+                    .execute();
+                Content content = response.returnContent();
+                LOGGER.debug("Response body: {}", content.asString());
+                return objectMapper.readValue(content.asBytes(), DsmWebapiResponse.class);
         } catch (IOException e) {
             throw new DsmWebApiClientException("Could not upload file.", e);
         }
@@ -87,17 +91,18 @@ public class UploadServiceImpl extends AbstractDsmServiceImpl implements UploadS
 
     private String createUrl() {
         return UriComponentsBuilder.fromHttpUrl(dsmUrlProvider.getDsmUrl())
-                .path("/webapi/FileStation/api_upload.cgi")
+                .path("/webapi/entry.cgi")
                 .toUriString();
     }
 
     private String createRequest(UploadRequest uploadRequest) {
         StringBuilder request = new StringBuilder();
         appendParameter(request, "api", getApiId());
-        appendParameter(request, "version", "1");
+        appendParameter(request, "version", "2");
         appendParameter(request, "method", "upload");
+        appendParameter(request, "overwrite", Boolean.toString(true));
         appendParameter(request, "_sid", authenticationHolder.getLoginInformation().getSid());
-        appendParameter(request, "dest_folder_path", uploadRequest.getParentFolderPath());
+        appendParameter(request, "path", uploadRequest.getParentFolderPath());
         appendParameter(request, "create_parents", Boolean.toString(uploadRequest.isCreateParents()));
         appendOverwriteBehaviorIfNeeded(request, uploadRequest.getOverwriteBehavior());
         appendTimeParameterIfNeeded(request, "mtime", uploadRequest.getLastModificationTime());

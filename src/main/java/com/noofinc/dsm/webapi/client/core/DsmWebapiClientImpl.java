@@ -31,6 +31,7 @@ public class DsmWebapiClientImpl implements DsmWebapiClient {
     @Override
     public <T extends DsmWebapiResponse<?>> T call(DsmWebapiRequest request, Class<T> responseType, ErrorHandler errorHandler) {
         T response = restTemplate.getForObject(buildUri(request), responseType);
+
         handleFailure(request, errorHandler, response);
         return response;
     }

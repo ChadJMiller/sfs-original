@@ -18,8 +18,10 @@ public class ShareListServiceTest extends AbstractTest {
         List<Share> list = shareListService.list();
         Assert.assertEquals(2, list.size());
         List<String> shareNames = list.stream().map(Share::getName).collect(Collectors.toList());
-        Assert.assertTrue(shareNames.contains("home"));
-        Assert.assertTrue(shareNames.contains("dsm-webapi-it"));
+        //Arbitrary share set up on the DSM server set up as a precondition
+        Assert.assertTrue(shareNames.contains("noofinc-test-share"));
+        //Arbitrary share set up on the DSM server set up as a precondition
+        Assert.assertTrue(shareNames.contains("noofinc-ws-it"));
     }
 
 }

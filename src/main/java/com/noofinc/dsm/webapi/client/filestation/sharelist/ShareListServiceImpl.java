@@ -51,7 +51,7 @@ public class ShareListServiceImpl extends AbstractDsmServiceImpl implements Shar
 
     @Override
     public List<Share> list(boolean onlyWritable) {
-        return list(PaginationAndSorting.DEFAULT_PAGINATION_AND_SORTING, Optional.of(onlyWritable)).getElements();
+        return list(new PaginationAndSorting(0, 0 /* Default limit to all (0) */, PaginationAndSorting.Sort.NAME, PaginationAndSorting.SortDirection.ASC), Optional.of(onlyWritable)).getElements();
     }
 
     @Override

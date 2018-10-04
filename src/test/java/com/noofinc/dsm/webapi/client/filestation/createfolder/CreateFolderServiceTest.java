@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CreateFolderServiceTest extends AbstractTest {
 
@@ -38,6 +39,12 @@ public class CreateFolderServiceTest extends AbstractTest {
         Assert.assertFalse(Strings.isNullOrEmpty(newFolderCreated.getProperties().getOwner().getGroup()));
         Assert.assertTrue(newFolderCreated.getProperties().getOwner().getGid() > 0);
         Assert.assertTrue(newFolderCreated.getProperties().getOwner().getUid() > 0);
+        /*
+            creation time notes:
+            1.  DSM server may be on a different clock than the testing machine.  For best results ensure both use the same
+            NTP server to get their time.
+            2.  DSM server seems to truncate time to whole second.  Which could cause issues for this test.
+         */
         Assert.assertTrue(newFolderCreated.getProperties().getTimeInformation().getCreationTime().isAfter(beforeCreation));
         Assert.assertTrue(newFolderCreated.getProperties().getTimeInformation().getCreationTime().isBefore(afterCreation));
         Assert.assertTrue(newFolderCreated.getProperties().getTimeInformation().getLastAccessTime().isAfter(beforeCreation));
@@ -62,6 +69,6 @@ public class CreateFolderServiceTest extends AbstractTest {
 
     @Test(expected = CouldNotCreateFolderException.class)
     public void testCreateFolderWithoutCreatingParents() throws Exception {
-        File newFolderCreate = createFolderService.createFolder("/dsm-webapi-it/CreateFolder2" + System.currentTimeMillis() + "/subFolder", "newFolderCreated", false);
+        File newFolderCreate = createFolderService.createFolder("/noofinc-ws-it/CreateFolder2" + System.currentTimeMillis() + "/subFolder", "newFolderCreated", false);
     }
 }
