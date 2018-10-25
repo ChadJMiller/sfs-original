@@ -37,7 +37,6 @@ public abstract class AbstractTest {
     @Before
     public void setUp() throws URISyntaxException, IOException, InterruptedException {
         shareMountPoint = Paths.get(shareMountPointPath);
-        System.out.println("The mountpoint: " + shareMountPointPath);
         Assert.assertTrue(Files.exists(shareMountPoint));
         Assert.assertTrue(Files.isWritable(shareMountPoint));
         createFileStructure();
@@ -45,7 +44,6 @@ public abstract class AbstractTest {
 
     @After
     public void tearDown() throws IOException {
-        System.out.println("tearDown...");
         FileUtils.cleanDirectory(shareMountPoint.toFile());
     }
 
