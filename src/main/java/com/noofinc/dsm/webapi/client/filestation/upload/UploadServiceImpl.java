@@ -10,16 +10,22 @@ import com.noofinc.dsm.webapi.client.core.exception.DsmWebApiClientException;
 import com.noofinc.dsm.webapi.client.filestation.common.OverwriteBehavior;
 import com.noofinc.dsm.webapi.client.core.timezone.TimeZoneUtil;
 //import com.sun.deploy.net.HttpResponse;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -36,6 +42,13 @@ public class UploadServiceImpl extends AbstractDsmServiceImpl implements UploadS
 
     private static final String DELIMITER = "--AaB03x";
     private static final String CRLF = "\r\n";
+
+    @Value("${dsm.webapi.username}")
+    private String username;
+    @Value("${dsm.webapi.password}")
+    private String password;
+    @Value("${dsm.webapi.host}")
+    private String host;
 
     @Autowired
     private DsmUrlProvider dsmUrlProvider;
@@ -69,6 +82,39 @@ public class UploadServiceImpl extends AbstractDsmServiceImpl implements UploadS
                     throw new FileAlreadyExistsException(response.getError(), uploadRequest.getParentFolderPath(), uploadRequest.getFileName());
                     // TODO handle other cases
             }
+        }
+    }
+
+
+    @Override
+    public void uploadFtpFile(String parentPath, String name, byte[] content) {
+        FTPClient ftp = new FTPClient();
+
+        try {
+            ftp.connect(this.host);
+            ftp.login(this.username, this.password);
+            ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            ftp.enterLocalPassiveMode();
+            InputStream is = new ByteArrayInputStream(content);
+            ftp.storeFile(parentPath + name, is);
+            try {
+                ftp.logout();
+                ftp.disconnect();
+            } catch (IOException ioe) {
+                //eat it
+            }
+        } catch (IOException e) {
+            throw new DsmWebApiClientException("Unable to upload file via FTP", e);
+        }
+    }
+
+    @Override
+    public void uploadFileWithFtpFailOver(String parentPath, String name, byte[] content) {
+        try {
+            uploadFile(parentPath, name, content);
+        } catch (Exception e) {
+            LOGGER.info("RESTful file upload failed, attempting via FTP");
+            uploadFtpFile(parentPath, name, content);
         }
     }
 
