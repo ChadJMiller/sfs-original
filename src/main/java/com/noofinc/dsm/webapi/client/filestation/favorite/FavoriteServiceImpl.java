@@ -38,10 +38,7 @@ public class FavoriteServiceImpl extends AbstractDsmServiceImpl implements Favor
     private static final String PARAMETER_OFFSET = "offset";
     private static final String PARAMETER_LIMIT = "limit";
     private static final String PARAMETER_STATUS_FILTER = "status_filter";
-
     private static final String PARAMETER_ADDITIONAL = "additional";
-
-
     // Parameter values
     private static final String PARAMETER_VALUE_ADDITIONAL = "real_path,owner,time,perm,mount_point_type";
 
@@ -63,7 +60,7 @@ public class FavoriteServiceImpl extends AbstractDsmServiceImpl implements Favor
 
     @Override
     public Favorite.FavoriteList list() {
-        return list(PaginationAndSorting.DEFAULT_PAGINATION_AND_SORTING, Optional.<String>empty());
+        return list(new PaginationAndSorting(0, 0, PaginationAndSorting.Sort.NAME, PaginationAndSorting.SortDirection.ASC), Optional.<String>empty());
     }
 
 
